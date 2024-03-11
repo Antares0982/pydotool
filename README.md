@@ -1,0 +1,2 @@
+# pydotool
+ydotool python bindings
