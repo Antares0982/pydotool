@@ -1,0 +1,49 @@
+name: "Build & Import Test"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "ydotool/**"
+      - "pydotool/**"
+      - "setup.py"
+      - "CMakeLists.txt"
+      - ".github/workflows/import.yml"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "ydotool/**"
+      - "pydotool/**"
+      - "setup.py"
+      - "CMakeLists.txt"
+      - ".github/workflows/import.yml"
+
+
+jobs:
+  run-test:
+    name: "run tests"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pydotool
+        run: |
+          python -m pip install .
+
+      - name: run import test
+        id: tests
+        run: |
+          python -c "import pydotool"
