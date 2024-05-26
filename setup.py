@@ -51,9 +51,12 @@ class cmake_build_ext(build_ext):
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+with open("version", "r") as version_file:
+    version = version_file.read().strip()
+
 setup(
     name='python-ydotool',
-    version="v1.0.4",
+    version=version,
     ext_modules=[
         CMakeExtension(name='_pydotool'),
     ],
@@ -62,6 +65,7 @@ setup(
         'Bug Tracker': 'https://github.com/Antares0982/pydotool/issues',
         'Source Code': 'https://github.com/Antares0982/pydotool',
     },
+    include_package_data=True,
     description='ydotool client implemented in Python',
     long_description=long_description,
     long_description_content_type='text/markdown',

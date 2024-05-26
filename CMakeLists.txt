@@ -11,14 +11,9 @@ find_package(Python3 COMPONENTS Development)
 include(GNUInstallDirs)
 find_package(PkgConfig)
 
-
-execute_process(COMMAND git describe --tags --long --always RESULT_VARIABLE RC_GIT_VER OUTPUT_VARIABLE GIT_VERSION)
-
-if (${RC_GIT_VER} EQUAL 0)
-    string(STRIP ${GIT_VERSION} GIT_VERSION)
-    message("-- Version: " ${GIT_VERSION})
-    add_definitions(-DVERSION=\"${GIT_VERSION}\")
-endif()
+file(READ "version" VERSION_CONTENTS)
+string(STRIP "${VERSION_CONTENTS}" VERSION)
+add_definitions(-DVERSION="${VERSION}")
 
 set(SOURCE_FILES_CLIENT ydotool/ydotool.c ydotool/pydotool.c)
 
