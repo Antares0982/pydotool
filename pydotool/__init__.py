@@ -1,3 +1,5 @@
+from typing import Callable as __Callable
+
 import _pydotool  # type: ignore
 
 from .ascii_2_keycode import *
@@ -8,5 +10,5 @@ from .mousemove import *
 from .typetool import *
 
 
-init = _pydotool.init
-uinput_emit = _pydotool.uinput_emit
+init: __Callable[[], None] = _pydotool.init
+uinput_emit: __Callable[[int, int, int, bool], None] = _pydotool.uinput_emit
