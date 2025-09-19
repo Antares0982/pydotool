@@ -1,8 +1,5 @@
 #include "pydotool.h"
 
-#define MODULE_STATE(o) ((modulestate *) PyModule_GetState(o))
-
-
 PyObject *pydotool_init(PyObject *self, PyObject *args, PyObject *kwargs);
 PyObject *pydotool_uinput_emit(PyObject *self, PyObject *args, PyObject *kwargs);
 
@@ -13,51 +10,21 @@ static PyMethodDef pydotool_Methods[] = {
         {NULL, NULL, 0, NULL} /* Sentinel */
 };
 
-static int module_traverse(PyObject *m, visitproc visit, void *arg);
-static int module_clear(PyObject *m);
-static void module_free(void *m);
-typedef struct
-{
-    PyObject *type_decimal;
-} modulestate;
-
 static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
         "_pydotool",
-        0,                   /* m_doc */
-        sizeof(modulestate), /* m_size */
-        pydotool_Methods,    /* m_methods */
-        NULL,                /* m_slots */
-        module_traverse,     /* m_traverse */
-        module_clear,        /* m_clear */
-        module_free          /* m_free */
+        0,                /* m_doc */
+        0,                /* m_size */
+        pydotool_Methods, /* m_methods */
 };
-
-static int module_traverse(PyObject *m, visitproc visit, void *arg) {
-    Py_VISIT(MODULE_STATE(m)->type_decimal);
-    return 0;
-}
-
-static int module_clear(PyObject *m) {
-    Py_CLEAR(MODULE_STATE(m)->type_decimal);
-    return 0;
-}
-
-static void module_free(void *m) {
-    module_clear((PyObject *) m);
-}
-
 
 PyMODINIT_FUNC PyInit__pydotool(void) {
     PyObject *module;
 
-
-    // This function is not supported in PyPy.
     if ((module = PyState_FindModule(&moduledef)) != NULL) {
         Py_INCREF(module);
         return module;
     }
-
 
     module = PyModule_Create(&moduledef);
     if (module == NULL) {

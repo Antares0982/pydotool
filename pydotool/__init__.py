@@ -12,3 +12,5 @@ from .typetool import *
 
 init: __Callable[[], None] = _pydotool.init
 uinput_emit: __Callable[[int, int, int, bool], None] = _pydotool.uinput_emit
+
+__version__ = _pydotool.__version__
