@@ -39,7 +39,7 @@ PyMODINIT_FUNC PyInit__pydotool(void) {
 PyObject *pydotool_init(PyObject *self, PyObject *args, PyObject *kwargs) {
     char *env_ys = NULL;
     static const char *kwlist[] = {"socket_path", NULL};
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|s#", (char **) kwlist, &env_ys)) {
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|s", (char **) kwlist, &env_ys)) {
         PyErr_SetString(PyExc_TypeError, "_pydotool.init(): failed to parse argument, expecting string");
         return NULL;
     }
