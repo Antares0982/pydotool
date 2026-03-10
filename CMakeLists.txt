@@ -5,7 +5,7 @@ project(ydotool C)
 
 set(CMAKE_C_STANDARD 99)
 
-find_package(Python3 COMPONENTS Development)
+find_package(Python3 COMPONENTS Development.Module)
 # Include GNU install directory module to detect where to install
 # files on Linux/Unix systems (e.g., lib vs lib64)
 include(GNUInstallDirs)
@@ -19,7 +19,9 @@ set(SOURCE_FILES_CLIENT ydotool/ydotool.c ydotool/pydotool.c)
 
 add_library(_pydotool SHARED ${SOURCE_FILES_CLIENT})
 target_include_directories(_pydotool PRIVATE ${Python3_INCLUDE_DIRS} ydotool)
-target_link_libraries(_pydotool ${Python3_LIBRARIES})
+if(Python3_LIBRARIES)
+    target_link_libraries(_pydotool ${Python3_LIBRARIES})
+endif()
 
 if (CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
     target_compile_options(_pydotool PUBLIC -Wno-unused-result)
